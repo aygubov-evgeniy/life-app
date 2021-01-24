@@ -42,7 +42,38 @@ export default createStore({
       state.currentNote.todos.splice(index, 1);
     }
   },
-  actions: {},
+  actions: {
+    saveTodo({ commit }) {
+      const isOldNote: boolean = this.state.notes.some(
+        el => el.id === this.state.currentNote.id
+      );
+
+      if (isOldNote) {
+        commit("updateNote");
+      } else {
+        commit("addNote");
+      }
+    },
+    fetchCurrentNote({ commit }, noteId: number) {
+      const note = JSON.parse(
+        JSON.stringify(this.state.notes.find(note => note.id === noteId))
+      );
+      commit("setCurrentNote", note);
+    },
+    updateCurrentNote({ commit }, note: Note) {
+      commit("setCurrentNote", note);
+    }
+  },
+  getters: {
+    getIdOfLastNote(state): number {
+      if (state.notes.length > 0) {
+        const index = state.notes.length - 1;
+        return state.notes[index].id;
+      } else {
+        return 0;
+      }
+    }
+  },
   modules: {},
   strict: true
 });
