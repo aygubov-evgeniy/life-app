@@ -43,7 +43,7 @@ export default createStore({
     }
   },
   actions: {
-    saveTodo({ commit }) {
+    saveNote({ commit }) {
       const isOldNote: boolean = this.state.notes.some(
         el => el.id === this.state.currentNote.id
       );
