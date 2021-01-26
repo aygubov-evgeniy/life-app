@@ -11,17 +11,18 @@
       >
         {{ todo.text ? todo.text : "Click to edit Todo" }}
       </span>
-      <input
-        v-else
-        type="text"
-        :value="todo.text"
-        @input="onTextChange"
-        v-on:keyup.enter="editable = !editable"
-      />
+      <template v-else>
+        <input
+          type="text"
+          v-model="title"
+          v-on:keyup.enter="editable = !editable"
+        />
+        <textarea v-model="text"></textarea>
+      </template>
     </div>
 
     <div>
-      <button @click="editable = !editable">
+      <button @click="onUpdateTodo">
         {{ editable ? "Save" : "Edit" }}
       </button>
       <button @click="$emit('remove-todo', todo)">Delete</button>
@@ -43,12 +44,14 @@ export default defineComponent({
   },
   data() {
     return {
-      editable: false
+      editable: false,
+      title: "",
+      text: ""
     };
   },
   methods: {
-    onTextChange(e: { target: { value: string } }) {
-      this.$emit("update-todo", e.target.value);
+    onUpdateTodo() {
+      this.$emit("update-todo", this.title, this.text);
     }
   },
   computed: {

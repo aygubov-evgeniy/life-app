@@ -8,8 +8,9 @@
         v-for="(todo, index) in note.todos"
         :todo="todo"
         :key="index"
+        v-model:title="todo.title"
         @remove-todo="onRemoveTodo(index)"
-        @update-todo="onUpdateTodo($event, index)"
+        @update-todo="onUpdateTodo(`$event`, index)"
         @checkbox-click="onCheckboxClick($event, index)"
       />
     </ul>
@@ -87,10 +88,12 @@ export default defineComponent({
     const onRemoveTodo = (index: number) => {
       store.commit("deleteTodo", index);
     };
-    const onUpdateTodo = (text: string, index: number) => {
+    const onUpdateTodo = (title: string, text: string, index: number) => {
+      console.log(title, text);
+
       const todos = [...store.state.currentNote.todos];
 
-      todos[index] = { ...todos[index], text };
+      todos[index] = { ...todos[index], title };
       store.commit("updateTodos", todos);
     };
     const onCheckboxClick = (completed: boolean, index: number) => {

@@ -34,6 +34,7 @@ export default createStore({
     },
     addNewTodo(state) {
       state.currentNote.todos.push({
+        title: "",
         text: "",
         completed: false
       });
